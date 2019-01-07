@@ -5,6 +5,6 @@ fh = open("100-contacts.csv", "r")
 reader = csv.DictReader(fh)
 
 for row in reader:
-    print(row['first_name'], row['last_name'])
+    print(str(reader.line_num), row['first_name'], row['last_name'])
 
 fh.close()
