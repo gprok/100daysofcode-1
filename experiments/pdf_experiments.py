@@ -1,21 +1,32 @@
 import PyPDF2
 from PyPDF2 import PdfFileReader
 
-pdf = open("automate-it.pdf", 'rb')
-readerObj = PdfFileReader(pdf)
+class PDFReader:
+
+    def __init__(self, filename):
+        self.filename = filename
+        self.file = open(self.filename+".pdf", 'rb')
+        self.pdf = PdfFileReader(self.file)
+
+    def printBookDetails(self):
+        print("Details of the book")
+        print("Number of pages:", self.pdf.getNumPages())
+        print("Title:", self.pdf.getDocumentInfo().title)
+        print("Author:", self.pdf.getDocumentInfo().author)
+
+    def printPage(self, pageNo):
+        print("Reading Page ", pageNo)
+        page = self.pdf.getPage(pageNo)
+        print(page.extractText())
+
+    def printOutline(self):
+        print("Book Outline")
+        for heading in self.pdf.getOutlines():
+           if type(heading) is not list:
+               print(dict(heading).get('/Title'))
 
 
-print("Details of the book")
-print("Number of pages:", readerObj.getNumPages())
-print("Title:", readerObj.getDocumentInfo().title)
-print("Author:", readerObj.getDocumentInfo().author)
-
-
-print("Reading Page 1")
-page = readerObj.getPage(1)
-print(page.extractText())
-
-print("Book Outline")
-for heading in readerObj.getOutlines():
-   if type(heading) is not list:
-       print(dict(heading).get('/Title'))
+p = PDFReader('automate-it')
+p.printBookDetails()
+p.printPage(1)
+p.printOutline()
