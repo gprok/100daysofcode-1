@@ -1,4 +1,5 @@
 from tkinter import Tk, Label, Button, Frame, BOTH, Text, RAISED, Entry
+from href import Href
 
 class MillipedeGUI:
     def __init__(self, master):
@@ -24,8 +25,11 @@ class MillipedeGUI:
         self.close_button.pack()
 
     def crawl(self):
+        hrefs = Href(self.urlField.get())
+        domains = hrefs.countHyperlinks()
+        for domain in domains:
+            print(domain, domains[domain])
 
-        print(self.urlField.get())
 
 
 def main():
