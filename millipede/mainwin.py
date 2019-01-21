@@ -1,4 +1,4 @@
-from tkinter import Tk, Label, Button, Frame, BOTH, Text, RAISED, Entry
+from tkinter import Tk, Label, Button, Frame, BOTH, Text, RAISED, Entry, Listbox
 from href import Href
 
 class MillipedeGUI:
@@ -18,6 +18,9 @@ class MillipedeGUI:
         self.urlField = Entry(mainFrame)
         self.urlField.pack()
 
+        self.listBox = Listbox(mainFrame)
+        self.listBox.pack()
+
         self.greet_button = Button(mainFrame, text="Crawl", command=self.crawl)
         self.greet_button.pack()
 
@@ -25,10 +28,21 @@ class MillipedeGUI:
         self.close_button.pack()
 
     def crawl(self):
-        hrefs = Href(self.urlField.get())
+        url = self.urlField.get()
+        print(url)
+        if url == "":
+            print("No URL provided")
+            return
+        hrefs = Href(url)
         domains = hrefs.countHyperlinks()
+        counter = 1
+        self.listBox.delete(0,'end')
         for domain in domains:
+            self.listBox.insert(counter, domain + " - " + str(domains[domain]))
+            counter += 1
             print(domain, domains[domain])
+
+
 
 
 
